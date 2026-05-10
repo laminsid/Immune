@@ -24,6 +24,31 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Extract project ZIP if needed
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if find . -maxdepth 5 -type f \( -name 'settings.gradle' -o -name 'settings.gradle.kts' \) | grep -q .; then
+            echo "Gradle project already extracted."
+            exit 0
+          fi
+
+          ZIP_FILE="$(find . -maxdepth 1 -type f -name 'ImmuneErrorRadar*.zip' | sort -V | tail -n 1 || true)"
+
+          if [ -z "$ZIP_FILE" ]; then
+            echo "ERROR: No extracted Gradle project and no ImmuneErrorRadar*.zip found."
+            find . -maxdepth 3 -type f | sort
+            exit 1
+          fi
+
+          echo "Extracting project ZIP: $ZIP_FILE"
+          mkdir -p .ci_project
+          unzip -q "$ZIP_FILE" -d .ci_project
+
+          echo "Extraction complete."
+          find .ci_project -maxdepth 4 -type f | sort | head -n 100
+
       - name: Locate Gradle project root
         shell: bash
         run: |
@@ -31,18 +56,12 @@ jobs:
 
           echo "Searching for settings.gradle / settings.gradle.kts..."
 
-          SETTINGS_FILE="$(find . -maxdepth 5 -type f \( -name 'settings.gradle' -o -name 'settings.gradle.kts' \) | head -n 1 || true)"
+          SETTINGS_FILE="$(find . -path './.git' -prune -o -type f \( -name 'settings.gradle' -o -name 'settings.gradle.kts' \) -print | head -n 1 || true)"
 
           if [ -z "$SETTINGS_FILE" ]; then
-            echo "ERROR: No Gradle settings file found."
-            echo ""
-            echo "Possible causes:"
-            echo "1) You uploaded the ZIP file itself instead of extracting it."
-            echo "2) The Android project is missing settings.gradle.kts."
-            echo "3) The Android project is deeper than maxdepth 5."
-            echo ""
+            echo "ERROR: No Gradle settings file found after extraction."
             echo "Repository structure:"
-            find . -maxdepth 4 -type f | sort | head -n 200
+            find . -maxdepth 5 -type f | sort | head -n 300
             exit 1
           fi
 
