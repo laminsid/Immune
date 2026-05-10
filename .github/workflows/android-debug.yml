@@ -18,7 +18,7 @@ jobs:
   build-debug-apk:
     name: Build Debug APK
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 40
 
     steps:
       - name: Checkout repository
@@ -38,6 +38,7 @@ jobs:
 
           if [ -z "$ZIP_FILE" ]; then
             echo "ERROR: No extracted Gradle project and no ImmuneErrorRadar*.zip found."
+            echo "Repository files:"
             find . -maxdepth 3 -type f | sort
             exit 1
           fi
@@ -46,8 +47,8 @@ jobs:
           mkdir -p .ci_project
           unzip -q "$ZIP_FILE" -d .ci_project
 
-          echo "Extraction complete."
-          find .ci_project -maxdepth 4 -type f | sort | head -n 100
+          echo "Extraction complete. Preview:"
+          find .ci_project -maxdepth 4 -type f | sort | head -n 150
 
       - name: Locate Gradle project root
         shell: bash
@@ -61,7 +62,7 @@ jobs:
           if [ -z "$SETTINGS_FILE" ]; then
             echo "ERROR: No Gradle settings file found after extraction."
             echo "Repository structure:"
-            find . -maxdepth 5 -type f | sort | head -n 300
+            find . -maxdepth 6 -type f | sort | head -n 300
             exit 1
           fi
 
@@ -70,6 +71,38 @@ jobs:
           echo "Gradle settings file found: $SETTINGS_FILE"
           echo "Gradle project root found: $PROJECT_DIR"
           echo "PROJECT_DIR=$PROJECT_DIR" >> "$GITHUB_ENV"
+
+      - name: Ensure AndroidX Gradle properties
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          cd "$PROJECT_DIR"
+
+          touch gradle.properties
+
+          if ! grep -q '^android.useAndroidX=' gradle.properties; then
+            echo 'android.useAndroidX=true' >> gradle.properties
+          else
+            sed -i 's/^android.useAndroidX=.*/android.useAndroidX=true/' gradle.properties
+          fi
+
+          if ! grep -q '^android.enableJetifier=' gradle.properties; then
+            echo 'android.enableJetifier=true' >> gradle.properties
+          else
+            sed -i 's/^android.enableJetifier=.*/android.enableJetifier=true/' gradle.properties
+          fi
+
+          if ! grep -q '^org.gradle.jvmargs=' gradle.properties; then
+            echo 'org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' >> gradle.properties
+          fi
+
+          if ! grep -q '^kotlin.code.style=' gradle.properties; then
+            echo 'kotlin.code.style=official' >> gradle.properties
+          fi
+
+          echo "gradle.properties:"
+          cat gradle.properties
 
       - name: Set up Java 17
         uses: actions/setup-java@v4
@@ -88,14 +121,22 @@ jobs:
       - name: Make Gradle wrapper executable if present
         shell: bash
         run: |
+          set -euo pipefail
+
           cd "$PROJECT_DIR"
+
           if [ -f "./gradlew" ]; then
             chmod +x ./gradlew
+            echo "Using Gradle wrapper."
+          else
+            echo "No Gradle wrapper found. Using installed Gradle 8.9."
           fi
 
       - name: Run project static checks
         shell: bash
         run: |
+          set -euo pipefail
+
           cd "$PROJECT_DIR"
 
           if [ -f "scripts/run_static_checks.sh" ]; then
@@ -108,6 +149,8 @@ jobs:
       - name: Run unit tests
         shell: bash
         run: |
+          set -euo pipefail
+
           cd "$PROJECT_DIR"
 
           if [ -f "./gradlew" ]; then
@@ -119,6 +162,8 @@ jobs:
       - name: Build debug APK
         shell: bash
         run: |
+          set -euo pipefail
+
           cd "$PROJECT_DIR"
 
           if [ -f "./gradlew" ]; then
