@@ -132,6 +132,31 @@ jobs:
             echo "No Gradle wrapper found. Using installed Gradle 8.9."
           fi
 
+      - name: Clean generated artifacts before static checks
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "Cleaning generated artifacts before release hygiene/static checks..."
+
+          # Workspace-level generated artifacts
+          rm -rf .gradle
+          rm -rf build
+
+          # Extracted project generated artifacts
+          if [ -n "${PROJECT_DIR:-}" ] && [ -d "$PROJECT_DIR" ]; then
+            find "$PROJECT_DIR" -type d \( -name ".gradle" -o -name "build" \) -prune -exec rm -rf {} +
+            find "$PROJECT_DIR" -type f \( -name "*.apk" -o -name "*.aab" -o -name "*.aar" \) -delete
+          fi
+
+          echo "Generated artifact cleanup complete."
+
+          echo "Forbidden generated artifacts remaining before static checks:"
+          find "$PROJECT_DIR" \( \
+            -type d \( -name ".gradle" -o -name "build" \) \
+            -o -type f \( -name "*.apk" -o -name "*.aab" -o -name "*.aar" \) \
+          \) -print || true
+
       - name: Run project static checks
         shell: bash
         run: |
