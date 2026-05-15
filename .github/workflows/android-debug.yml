@@ -29,26 +29,46 @@ jobs:
         run: |
           set -euo pipefail
 
-          if find . -maxdepth 5 -type f \( -name 'settings.gradle' -o -name 'settings.gradle.kts' \) | grep -q .; then
+          echo "Checking whether Gradle project already exists..."
+
+          SETTINGS_CANDIDATES="$(mktemp)"
+          find . -maxdepth 5 \
+            -path './.git' -prune -o \
+            -type f \( -name 'settings.gradle' -o -name 'settings.gradle.kts' \) \
+            -print > "$SETTINGS_CANDIDATES"
+
+          if [ -s "$SETTINGS_CANDIDATES" ]; then
             echo "Gradle project already extracted."
+            echo "Detected settings file:"
+            sed -n '1p' "$SETTINGS_CANDIDATES"
             exit 0
           fi
 
-          ZIP_FILE="$(find . -maxdepth 1 -type f -name 'ImmuneErrorRadar*.zip' | sort -V | tail -n 1 || true)"
+          ZIP_CANDIDATES="$(mktemp)"
+          find . -maxdepth 1 -type f -name 'ImmuneErrorRadar*.zip' -print > "$ZIP_CANDIDATES"
 
-          if [ -z "$ZIP_FILE" ]; then
+          if [ ! -s "$ZIP_CANDIDATES" ]; then
             echo "ERROR: No extracted Gradle project and no ImmuneErrorRadar*.zip found."
             echo "Repository files:"
-            find . -maxdepth 3 -type f | sort
+            REPO_FILES="$(mktemp)"
+            find . -maxdepth 3 -type f -print > "$REPO_FILES"
+            sort "$REPO_FILES" > "${REPO_FILES}.sorted"
+            sed -n '1,300p' "${REPO_FILES}.sorted"
             exit 1
           fi
 
+          ZIP_FILE="$(sort -V "$ZIP_CANDIDATES" | tail -n 1)"
+
           echo "Extracting project ZIP: $ZIP_FILE"
+          rm -rf .ci_project
           mkdir -p .ci_project
           unzip -q "$ZIP_FILE" -d .ci_project
 
           echo "Extraction complete. Preview:"
-          find .ci_project -maxdepth 4 -type f | sort | head -n 150
+          PREVIEW_FILES="$(mktemp)"
+          find .ci_project -maxdepth 4 -type f -print > "$PREVIEW_FILES"
+          sort "$PREVIEW_FILES" > "${PREVIEW_FILES}.sorted"
+          sed -n '1,150p' "${PREVIEW_FILES}.sorted"
 
       - name: Locate Gradle project root
         shell: bash
@@ -57,15 +77,23 @@ jobs:
 
           echo "Searching for settings.gradle / settings.gradle.kts..."
 
-          SETTINGS_FILE="$(find . -path './.git' -prune -o -type f \( -name 'settings.gradle' -o -name 'settings.gradle.kts' \) -print | head -n 1 || true)"
+          SETTINGS_FILES="$(mktemp)"
+          find . \
+            -path './.git' -prune -o \
+            -type f \( -name 'settings.gradle' -o -name 'settings.gradle.kts' \) \
+            -print > "$SETTINGS_FILES"
 
-          if [ -z "$SETTINGS_FILE" ]; then
+          if [ ! -s "$SETTINGS_FILES" ]; then
             echo "ERROR: No Gradle settings file found after extraction."
             echo "Repository structure:"
-            find . -maxdepth 6 -type f | sort | head -n 300
+            STRUCTURE_FILES="$(mktemp)"
+            find . -maxdepth 6 -type f -print > "$STRUCTURE_FILES"
+            sort "$STRUCTURE_FILES" > "${STRUCTURE_FILES}.sorted"
+            sed -n '1,300p' "${STRUCTURE_FILES}.sorted"
             exit 1
           fi
 
+          SETTINGS_FILE="$(sed -n '1p' "$SETTINGS_FILES")"
           PROJECT_DIR="$(dirname "$SETTINGS_FILE")"
 
           echo "Gradle settings file found: $SETTINGS_FILE"
@@ -81,16 +109,16 @@ jobs:
 
           touch gradle.properties
 
-          if ! grep -q '^android.useAndroidX=' gradle.properties; then
-            echo 'android.useAndroidX=true' >> gradle.properties
-          else
+          if grep -q '^android.useAndroidX=' gradle.properties; then
             sed -i 's/^android.useAndroidX=.*/android.useAndroidX=true/' gradle.properties
+          else
+            echo 'android.useAndroidX=true' >> gradle.properties
           fi
 
-          if ! grep -q '^android.enableJetifier=' gradle.properties; then
-            echo 'android.enableJetifier=true' >> gradle.properties
-          else
+          if grep -q '^android.enableJetifier=' gradle.properties; then
             sed -i 's/^android.enableJetifier=.*/android.enableJetifier=true/' gradle.properties
+          else
+            echo 'android.enableJetifier=true' >> gradle.properties
           fi
 
           if ! grep -q '^org.gradle.jvmargs=' gradle.properties; then
@@ -139,23 +167,33 @@ jobs:
 
           echo "Cleaning generated artifacts before release hygiene/static checks..."
 
-          # Workspace-level generated artifacts
           rm -rf .gradle
           rm -rf build
 
-          # Extracted project generated artifacts
           if [ -n "${PROJECT_DIR:-}" ] && [ -d "$PROJECT_DIR" ]; then
-            find "$PROJECT_DIR" -type d \( -name ".gradle" -o -name "build" \) -prune -exec rm -rf {} +
-            find "$PROJECT_DIR" -type f \( -name "*.apk" -o -name "*.aab" -o -name "*.aar" \) -delete
+            find "$PROJECT_DIR" \
+              -type d \( -name ".gradle" -o -name "build" \) \
+              -prune -exec rm -rf {} +
+
+            find "$PROJECT_DIR" \
+              -type f \( -name "*.apk" -o -name "*.aab" -o -name "*.aar" \) \
+              -delete
           fi
 
           echo "Generated artifact cleanup complete."
 
           echo "Forbidden generated artifacts remaining before static checks:"
+          REMAINING_ARTIFACTS="$(mktemp)"
           find "$PROJECT_DIR" \( \
             -type d \( -name ".gradle" -o -name "build" \) \
             -o -type f \( -name "*.apk" -o -name "*.aab" -o -name "*.aar" \) \
-          \) -print || true
+          \) -print > "$REMAINING_ARTIFACTS" || true
+
+          if [ -s "$REMAINING_ARTIFACTS" ]; then
+            cat "$REMAINING_ARTIFACTS"
+          else
+            echo "None."
+          fi
 
       - name: Run project static checks
         shell: bash
