@@ -1,0 +1,4 @@
+Hypothesis Stress-Test & Investment Decision Report — Sample
+Route: APM_COMPOSITE_B2M_TAP_HLA
+FINAL INVESTMENT DECISION: INVEST_IN_DATA_ONLY
+Boundary: data-only follow-up; no wet-lab candidacy; Tier-2 required before computational evidence language.
