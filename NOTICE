@@ -1,0 +1,18 @@
+ImmuneErrorRadar / GTIM
+Copyright 2026 Bouchelit Mohammed El Amin
+
+This software is distributed under the Apache License, Version 2.0.
+
+ImmuneErrorRadar implements a falsification-first research workflow for biomedical
+hypothesis stress-testing. It is not a medical device, diagnostic tool, treatment
+recommendation system, clinical decision-support product, or wet-laboratory validation.
+
+The project uses a Vraimony-inspired evidence receipt discipline: hash-first,
+portable, replayable, and claim-bounded. References to Vraimony, ERF-inspired
+receipts, or the ImmuneErrorRadar falsification protocol describe documentation
+and reproducibility methodology; they do not imply clinical validation or proof of
+biology.
+
+Data policy: repository artifacts should avoid redistributing controlled or
+third-party expression matrices unless the applicable source license allows it.
+Hash-only fixtures and regeneration instructions are preferred for public release.
