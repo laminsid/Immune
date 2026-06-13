@@ -1,5 +1,0 @@
-dataset_id,condition,data_type,species,sample_count,outcome_labels,notes
-GSE_VIRAL_EXAMPLE,viral response,RNA-seq,human,120,yes,placeholder row for pipeline testing
-IMMPORT_ALLERGY_EXAMPLE,allergy/cytokines,cytokine panel,human,80,yes,placeholder row for registry scoring
-HCA_SINGLE_CELL_EXAMPLE,immune atlas,single-cell RNA,human,300,yes,placeholder row for cell-state mapping
-ANIMAL_MECHANISM_EXAMPLE,viral mechanism,RNA-seq,mouse,40,no,should score lower than human cohorts

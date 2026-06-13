@@ -1,6 +1,0 @@
-case_id,condition,age,CRP_mg_L,ESR_mm_h,IgE_IU_mL,Eosinophils_cells_uL,IL6_pg_mL,TNF_alpha_pg_mL,IL10_pg_mL,Ferritin_ng_mL,stress_0_10,sleep_quality_0_10,mechanical_load_0_10,recovery_slow_0_10,exercise_recovery_0_10,allergy_intensity_0_10,frequent_infections,systolic_bp,diastolic_bp,resting_pulse_bpm,dizziness_standing,faintness_during_allergy,flushing,dna_methylation,rna_seq,mirna
-case_a,allergy_preserved_candidate,32,2,8,240,520,4,3,12,80,7,4,1,2,8,8,false,108,68,78,false,false,true,low,yes,no
-case_b,ra,58,18,42,60,130,29,24,5,210,6,5,2,6,4,2,false,132,84,82,false,false,false,unknown,yes,yes
-case_c,hyperinflammation,71,92,70,80,90,180,95,3,1250,5,3,0,8,2,1,true,118,72,96,true,false,false,high,yes,unknown
-case_d,back_stress,43,4,10,40,100,6,4,9,120,9,2,8,5,3,1,false,138,88,92,false,false,false,unknown,no,no
-case_e,allergy_inflammaging_candidate,49,12,22,300,650,18,16,6,260,8,3,1,7,3,9,false,104,62,88,true,true,true,unknown,no,no

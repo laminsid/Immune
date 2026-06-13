@@ -1,2 +1,0 @@
-sample_id,group,MYCN,CD8A,NKG7,GNLY,PRF1,GZMB,B2M,HLA-A,CD276,B4GALNT1,ST8SIA1,TIGIT,NECTIN2,CD68,MRC1,VEGFA,HIF1A,CXCL12,notes
-# Fill with real ETL/user-attested human replication rows from GSE49710 or TARGET-NBL only. Do not use placeholder values for DGE.
