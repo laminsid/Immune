@@ -1,4 +1,0 @@
-Hypothesis Stress-Test & Investment Decision Report — Sample
-Route: NECTIN2_TIGIT_NOT_MEASURABLE
-FINAL INVESTMENT DECISION: DO_NOT_INVEST_CLAIM_KILLED
-Boundary: bulk selected matrix cannot test ligand-receptor checkpoint function; single-cell/functional dataset required.

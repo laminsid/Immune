@@ -1,4 +1,0 @@
-Hypothesis Stress-Test & Investment Decision Report — Sample
-Route: CK2_APM_FALLBACK
-FINAL INVESTMENT DECISION: DO_NOT_INVEST_CLAIM_KILLED
-Boundary: CK2 mechanism attribution is killed as written; APM fallback cannot be attributed to CK2 without perturbation/protein/IFN context.
