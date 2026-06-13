@@ -1,1 +1,0 @@
-In pediatric neuroblastoma, NECTIN2/TIGIT ligand-receptor checkpoint engagement suppresses T/NK surveillance and predicts worse progression-free survival. Stress-test whether bulk selected-matrix expression can measure this claim or whether single-cell/functional checkpoint context is required.
