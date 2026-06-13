@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ImmuneErrorRadar — GitHub Research Interface</title>
+<style>
+  :root{
+    --bg:#f7fbfa; --panel:#ffffff; --line:#cfe5e1; --ink:#1d2a2e; --muted:#617174;
+    --accent:#168b83; --accent2:#0f6f68; --warn:#9a6b00; --bad:#9a2830; --ok:#12783d;
+    --shadow:0 1px 8px rgba(0,0,0,.06); --radius:18px;
+  }
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.45}
+  header{padding:28px 18px 18px;background:linear-gradient(180deg,#eaf8f5,#f7fbfa);border-bottom:1px solid var(--line)}
+  .wrap{max-width:1120px;margin:0 auto;padding:18px}.brand{display:flex;gap:14px;align-items:center;flex-wrap:wrap}.logo{width:48px;height:48px;border-radius:14px;background:var(--accent);display:grid;place-items:center;color:white;font-weight:800}
+  h1{font-size:clamp(24px,4vw,40px);margin:0}.subtitle{color:var(--muted);max-width:850px;margin-top:8px}.badge{display:inline-block;padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--accent2);font-weight:650;font-size:13px;margin:4px 6px 0 0}
+  .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:16px}@media(max-width:900px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin-bottom:16px}.card h2{margin:0 0 10px;font-size:20px}.card h3{margin:14px 0 8px;font-size:16px}.small{font-size:13px;color:var(--muted)}
+  textarea,input,select{width:100%;border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff;color:var(--ink);font:inherit}textarea{min-height:132px;resize:vertical}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.row>*{flex:1}.btn{border:1px solid var(--accent);background:#e9fbf8;color:var(--accent2);padding:11px 14px;border-radius:14px;cursor:pointer;font-weight:650;min-width:120px}.btn:hover{background:#d9f4f0}.btn.primary{background:var(--accent);color:white}.btn.danger{border-color:#d9a6aa;background:#fff2f3;color:var(--bad)}.btn:disabled{opacity:.55;cursor:not-allowed}
+  .status{padding:10px 12px;border-radius:12px;background:#eef7f6;border:1px solid var(--line);font-size:14px}.verdict{font-weight:750}.killed{color:var(--bad)}.data{color:var(--ok)}.watch{color:var(--warn)}.unknown{color:var(--muted)}
+  .list{max-height:310px;overflow:auto;border:1px solid var(--line);border-radius:14px;background:#fff}.item{padding:10px 12px;border-bottom:1px solid #eef5f4;cursor:pointer}.item:hover,.item.active{background:#edf8f6}.item:last-child{border-bottom:0}.item-title{font-weight:700}.item-meta{font-size:12px;color:var(--muted)}
+  pre{white-space:pre-wrap;word-break:break-word;background:#fbfefe;border:1px solid var(--line);border-radius:14px;padding:13px;max-height:420px;overflow:auto}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.tab{padding:8px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;cursor:pointer}.tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}.hidden{display:none!important}.footer{font-size:12px;color:var(--muted);text-align:center;padding:24px}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.drop{border:2px dashed var(--line);padding:18px;text-align:center;border-radius:16px;background:#fbfffe}.drop.drag{border-color:var(--accent);background:#eefaf8}
+  @media print{header,.controls,.tabs,.btn,.drop{display:none!important}.card{box-shadow:none;border:0}.wrap{max-width:none}.grid{display:block}body{background:white}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brand"><div class="logo">IER</div><div><h1>ImmuneErrorRadar</h1><div class="subtitle">GitHub-only research interface for hypothesis falsification, receipts, Tier-0 boundaries, replay review, and calibration history. No Android files. No folders required.</div></div></div>
+    <div style="margin-top:10px">
+      <span class="badge">Powered by Vraimony</span><span class="badge">ImmuneErrorRadar falsification protocol</span><span class="badge">ERF-inspired receipt discipline</span><span class="badge">Tier-0 only</span>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+  <div class="grid">
+    <section>
+      <div class="card">
+        <h2>1) Hypothesis / report input</h2>
+        <p class="small">Paste a hypothesis or a generated report. This interface does not claim biology proof; it helps organize review, receipts, and calibration status.</p>
+        <textarea id="hypothesis" placeholder="Paste hypothesis or report text here..."></textarea>
+        <div class="row controls" style="margin-top:10px">
+          <button class="btn primary" id="analyzeBtn">Classify & save report</button>
+          <button class="btn" id="clearBtn">Clear input</button>
+        </div>
+        <div class="status" id="statusBox" style="margin-top:10px">Ready.</div>
+      </div>
+
+      <div class="card">
+        <h2>2) Upload report / receipt / manifest</h2>
+        <div class="drop" id="dropZone">Drag files here or <input id="fileInput" type="file" multiple style="display:inline;width:auto;border:0;padding:0" /></div>
+        <p class="small">Files stay in your browser. Text, JSON, CSV and Markdown are read locally. Large files are summarized, not treated as proof.</p>
+      </div>
+
+      <div class="card">
+        <h2>3) Report reader</h2>
+        <div id="selectedMeta" class="small">No report selected.</div>
+        <pre id="reportView">Select a history item or create a report.</pre>
+        <div class="row controls">
+          <button class="btn" id="copyBtn">Copy</button>
+          <button class="btn" id="downloadBtn">Download TXT</button>
+          <button class="btn" id="printBtn">Print</button>
+          <button class="btn danger" id="deleteBtn">Delete selected</button>
+        </div>
+      </div>
+    </section>
+
+    <aside>
+      <div class="card">
+        <h2>Report history</h2>
+        <div class="row"><select id="dateFilter"></select><button class="btn" id="exportLedgerBtn">Export ledger</button></div>
+        <div class="list" id="historyList" style="margin-top:10px"></div>
+      </div>
+
+      <div class="card">
+        <h2>Calibration ledger</h2>
+        <div id="ledgerSummary" class="status">No records yet.</div>
+        <p class="small">Each tested hypothesis adds a pattern: killed, data-only, watchlist, not measurable, null-like, or local direction only.</p>
+      </div>
+
+      <div class="card">
+        <h2>Reference panels</h2>
+        <div class="tabs">
+          <button class="tab active" data-tab="tier">Tier-0</button>
+          <button class="tab" data-tab="receipt">Receipts</button>
+          <button class="tab" data-tab="manifest">GPL5175</button>
+          <button class="tab" data-tab="replay">Replay</button>
+          <button class="tab" data-tab="apk">APK bridge</button>
+        </div>
+        <pre id="panelText"></pre>
+      </div>
+    </aside>
+  </div>
+</main>
+<div class="footer">ImmuneErrorRadar GitHub Interface Only Lite v3.0.7.8 — single-file edition. Local browser storage only.</div>
+<script>
+const REF = {
+ tier:`TIER-0 BOUNDARIES\n\nAllowed:\n- Directional screening.\n- Claim triage.\n- Kill / watchlist / data-only decisions.\n- Receipt and replay documentation.\n\nNot allowed:\n- Clinical advice.\n- Treatment recommendation.\n- Wet-lab promotion.\n- Proof of biology.\n- Pan-pediatric generalization from one cohort.\n\nPromotion gates:\n- Tier-1: certified platform/probe annotation and vector binding.\n- Tier-2: independent cohort replication with stable direction and time-to-event modeling.`,
+ receipt:`RECEIPT DISCIPLINE\n\nPowered by Vraimony.\nProtocol: ImmuneErrorRadar falsification protocol.\nDocumentation discipline: ERF-inspired.\n\nFields to preserve:\n- receipt_id\n- contentSha256\n- protocolName\n- signedByVraimony=false unless server-signed\n- claim boundary\n- replay notes\n\nCurrent boundary: local receipt documents report payload and workflow; it is not medical validation.`,
+ manifest:`TARGETED GPL5175 REVIEW MANIFEST\n\nUse as review manifest only. It does not certify source truth by itself.\n\nCore routes:\n- APM/B2M-TAP-HLA\n- CK2/APM fallback\n- HDAC/DNMT/APM fallback\n- NECTIN2/TIGIT\n- gamma-delta/NKG2D\n- ODC1/polyamine\n- CD276/B7-H3\n\nRequired before stronger claims:\n- full GPL5175 annotation\n- probe-to-gene receipt\n- expression vector binding\n- independent replication`,
+ replay:`REPLAY DESCRIPTION\n\nMinimum replay packet:\n1. Hypothesis text.\n2. Dataset/cohort scope.\n3. Probe/platform mapping state.\n4. Report text or JSON.\n5. Receipt hash.\n6. Final verdict.\n7. Missing evidence gates.\n\nSuccessful replay means the same claim boundary and decision route are reproduced. It does not mean biological proof.`,
+ apk:`APK BRIDGE\n\nThis single-file GitHub interface is the primary research surface.\n\nOptional bridge:\nAPK / Android harness -> generated report or receipt -> upload into this interface -> history / calibration / replay review.\n\nThe APK is optional. This repository edition intentionally excludes Android source files.`
+};
+const $=id=>document.getElementById(id); let records=load(); let selectedId=null;
+function nowISO(){return new Date().toISOString()} function dayOf(ts){return ts.slice(0,10)}
+function load(){try{return JSON.parse(localStorage.getItem('ier_records_v3078')||'[]')}catch(e){return []}}
+function save(){localStorage.setItem('ier_records_v3078',JSON.stringify(records)); renderHistory(); renderLedger()}
+function verdictFrom(text){let t=text.toUpperCase(); if(t.includes('INVEST_IN_DATA_ONLY')||t.includes('DATA-ONLY')||t.includes('DATA ONLY')) return 'DATA_ONLY_SURVIVED_FIRST_TRIAGE'; if(t.includes('DO_NOT_INVEST_CLAIM_KILLED')||t.includes('KILL')||t.includes('KILLED')) return 'KILLED_AS_WRITTEN'; if(t.includes('WATCHLIST')) return 'WATCHLIST_ONLY'; if(t.includes('NOT_MEASURABLE')||t.includes('NOT TESTABLE')) return 'NOT_MEASURABLE'; if(t.includes('NULL')||t.includes('INCONCLUSIVE')) return 'NULL_LIKE_OR_INCONCLUSIVE'; if(t.includes('SURVIVES')||t.includes('STRONG_EXPLORATORY_DIRECTION')) return 'SURVIVED_LOCAL_DIRECTION_REVIEW_ONLY'; return 'NULL_LIKE_OR_INCONCLUSIVE'}
+function titleFrom(text){let t=text.toUpperCase(); if(t.includes('CK2')||t.includes('CSNK2A1')) return 'CK2/CSNK2A1 -> APM mechanism claim'; if(t.includes('HDAC')||t.includes('DNMT')) return 'HDAC/DNMT -> APM mechanism claim'; if(t.includes('NECTIN2')||t.includes('TIGIT')||t.includes('PVRL2')) return 'NECTIN2/TIGIT bulk checkpoint claim'; if(t.includes('GAMMA')||t.includes('ΓΔ')||t.includes('TRGC')||t.includes('TRDV')||t.includes('NKG2D')) return 'gamma-delta/NKG2D surrogate claim'; if(t.includes('ODC1')||t.includes('POLYAMINE')) return 'ODC1/polyamine axis'; if(t.includes('CD276')||t.includes('B7-H3')) return 'CD276/B7-H3 subgroup/watchlist route'; if(t.includes('APM')||t.includes('B2M')||t.includes('TAP1')||t.includes('HLA')) return 'APM/B2M-TAP-HLA data axis'; return text.split(/\n|\./)[0].slice(0,80)||'Untitled research note'}
+async function sha256(text){const b=new TextEncoder().encode(text); const h=await crypto.subtle.digest('SHA-256',b); return [...new Uint8Array(h)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+async function createRecord(text, source='manual'){text=(text||'').trim(); if(!text){$('statusBox').textContent='Input is empty.';return} let ts=nowISO(), verdict=verdictFrom(text), title=titleFrom(text), hash=await sha256(text); let report=`History report\nDate: ${ts.replace('T',' ').slice(0,16)}\nTitle: ${title}\nCalibration outcome: ${verdict}\nProtocol: ImmuneErrorRadar falsification protocol | Vraimony methodology\nReceipt: sha256-${hash}\nSource: ${source}\n\nPowered by Vraimony\nThis report follows the ImmuneErrorRadar falsification protocol, powered by Vraimony, based on the Vraimony evidence-receipt methodology.\n\nClaim boundary: Tier-0 review only. Not medical advice, not clinical validation, not wet-lab evidence, and not proof of biology.\n\n---\n${text}`; let rec={id:ts+'-'+Math.random().toString(16).slice(2),ts,title,verdict,hash,report,source}; records.unshift(rec); save(); selectRecord(rec.id); $('hypothesis').value=''; $('statusBox').innerHTML=`Saved: <span class="verdict ${classFor(verdict)}">${verdict}</span>`}
+function classFor(v){if(v.includes('KILLED'))return'killed'; if(v.includes('DATA'))return'data'; if(v.includes('WATCH'))return'watch'; return'unknown'}
+function renderHistory(){let dates=[...new Set(records.map(r=>dayOf(r.ts)))]; $('dateFilter').innerHTML='<option value="all">All dates</option>'+dates.map(d=>`<option>${d}</option>`).join(''); let active=$('dateFilter').value||'all'; renderList(active)}
+function renderList(filter='all'){let list=$('historyList'); let arr=records.filter(r=>filter==='all'||dayOf(r.ts)===filter); list.innerHTML=arr.length?arr.map(r=>`<div class="item ${r.id===selectedId?'active':''}" data-id="${r.id}"><div class="item-title">${r.ts.replace('T',' ').slice(0,16)} — ${escapeHtml(r.title)}</div><div class="item-meta">${r.verdict} | sha256-${r.hash.slice(0,12)}</div></div>`).join(''):'<div class="item">No reports yet.</div>'; [...list.querySelectorAll('.item[data-id]')].forEach(el=>el.onclick=()=>selectRecord(el.dataset.id))}
+function selectRecord(id){selectedId=id; let r=records.find(x=>x.id===id); if(!r)return; $('selectedMeta').textContent=`${r.ts.replace('T',' ').slice(0,16)} | ${r.verdict} | ${r.title}`; $('reportView').textContent=r.report; renderList($('dateFilter').value||'all')}
+function renderLedger(){let counts={}; records.forEach(r=>counts[r.verdict]=(counts[r.verdict]||0)+1); $('ledgerSummary').innerHTML=Object.keys(counts).length?Object.entries(counts).map(([k,v])=>`<div><b>${k}</b>: ${v}</div>`).join(''):'No records yet.'}
+function escapeHtml(s){return (s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+async function handleFiles(files){for(const f of files){let text=await f.text().catch(()=>`[Unreadable file: ${f.name}]`); if(text.length>200000) text=text.slice(0,80000)+'\n\n[...middle truncated by local workbench...]\n\n'+text.slice(-80000); await createRecord(text, 'file:'+f.name)}}
+$('analyzeBtn').onclick=()=>createRecord($('hypothesis').value); $('clearBtn').onclick=()=>{$('hypothesis').value='';$('statusBox').textContent='Cleared.'}; $('dateFilter').onchange=()=>renderList($('dateFilter').value); $('copyBtn').onclick=()=>navigator.clipboard.writeText($('reportView').textContent||''); $('downloadBtn').onclick=()=>{let r=records.find(x=>x.id===selectedId); let name=(r?r.title:'report').replace(/[^a-z0-9]+/gi,'_').slice(0,70)+'.txt'; let a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([$('reportView').textContent],{type:'text/plain'})); a.download=name; a.click(); URL.revokeObjectURL(a.href)}; $('printBtn').onclick=()=>window.print(); $('deleteBtn').onclick=()=>{if(!selectedId)return; records=records.filter(r=>r.id!==selectedId); selectedId=null; $('reportView').textContent='Select a history item or create a report.'; save()}; $('exportLedgerBtn').onclick=()=>{let a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(records,null,2)],{type:'application/json'})); a.download='immuneerrorradar_calibration_ledger.json'; a.click(); URL.revokeObjectURL(a.href)}; $('fileInput').onchange=e=>handleFiles(e.target.files);
+let dz=$('dropZone'); ['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('drag')})); ['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove('drag')})); dz.addEventListener('drop',e=>handleFiles(e.dataTransfer.files));
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); b.classList.add('active'); $('panelText').textContent=REF[b.dataset.tab]}); $('panelText').textContent=REF.tier; renderHistory(); renderLedger();
+</script>
+</body>
+</html>
