@@ -1,0 +1,57 @@
+{
+  "schema": "immuneerrorradar_github_upload_manifest_v3080",
+  "generated_date": "2026-06-13",
+  "boundary": "GitHub minimal evidence upload pack; viewer-only; no live biomedical computation",
+  "files": [
+    {
+      "file": "index.html",
+      "sha256": "eadfa38068da6d4f4c540eb8a28802a2a661262b4249f63372eb667f0d2de58e",
+      "size_bytes": 12147
+    },
+    {
+      "file": "README.md",
+      "sha256": "1709ded9f9bb294d8cd3299ee2737f2ee97b6f4f5b14593735b1cfbd256d8888",
+      "size_bytes": 2090
+    },
+    {
+      "file": "CHANGELOG.md",
+      "sha256": "9fcd33532e74f157a4edbc3dd4689d166f0140f2afae04db65611ab8c78ba0d4",
+      "size_bytes": 707
+    },
+    {
+      "file": "LICENSE",
+      "sha256": "36d6f0ca31324953f31f634e0d6bd40ae2e86505f6fc6801c234b09be2d41aa6",
+      "size_bytes": 11356
+    },
+    {
+      "file": "NOTICE",
+      "sha256": "45dd1abecf42273bf41d61f76cd29ecc67de4b340c21944b3c5ef6165f67483c",
+      "size_bytes": 958
+    },
+    {
+      "file": "CITATION.cff",
+      "sha256": "134174c5cca8df8cf3d477c1ac3f6a3079b03eb9dd8bbb482d8cf2a7206b6ac5",
+      "size_bytes": 771
+    },
+    {
+      "file": "ImmuneErrorRadar_Preprint_v5_1_submission_clean.pdf",
+      "sha256": "b90f2724c03d477ce37e07eefa5c6e05bfab5c068176eca86be443b9f3ad6fff",
+      "size_bytes": 138826
+    },
+    {
+      "file": "ImmuneErrorRadar_Evidence_Bundle_v3.0.8.0.zip",
+      "sha256": "82471c70a6044b48e59a94e8dda091164c5e690f49a4feee54ea9d034fc58341",
+      "size_bytes": 2028381
+    },
+    {
+      "file": "GITHUB_UPLOAD_CHECKLIST.md",
+      "sha256": "e557fedc5bf590c5965cf3e9a019c5bf65c2799f48c798ee5de9949f0ff92ab0",
+      "size_bytes": 1019
+    },
+    {
+      "file": "DELETE_OLD_REPO_FILES.md",
+      "sha256": "d8815182923bbe7e746a834deeba55a275651e19e12153992c1746e6eeeba5a7",
+      "size_bytes": 963
+    }
+  ]
+}
