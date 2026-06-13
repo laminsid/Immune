@@ -1,0 +1,31 @@
+{
+  "schema": "target_nbl_hypoxia_stroma_expression_proxy_only_v30356",
+  "requiredToken": "V30356_TARGET_NBL_EXPRESSION_PROXY_ROUTE",
+  "sourceFile": "TARGET-NBL.star_fpkm-uq.tsv.gz",
+  "sourceType": "Xena/GDC STAR FPKM-UQ gene expression",
+  "sampleCount": 162,
+  "selectedGeneCount": 15,
+  "selectedGenes": [
+    "VEGFA",
+    "CA9",
+    "SLC2A1",
+    "LDHA",
+    "HIF1A",
+    "CXCL12",
+    "FN1",
+    "VIM",
+    "COL1A1",
+    "COL1A2",
+    "ACTA2",
+    "TAGLN",
+    "MMP2",
+    "LOX",
+    "SERPINE1"
+  ],
+  "mycnIncluded": true,
+  "clinicalSurvivalAttached": false,
+  "state": "TARGET_NBL_EXPRESSION_PROXY_ATTACHED_CLINICAL_SURVIVAL_REQUIRED",
+  "liteFile": "TARGET_NBL_HYPOXIA_STROMA_EXPRESSION_PROXY_ONLY_v30356.csv",
+  "sha256": "f7548cb8e3da85d94eb404b99cb329d3965c906db84fd4cdaa8fde4463304c31",
+  "claimBoundary": "Expression proxy is attached for TARGET-NBL, but external replication cannot execute until matching PFS/OS clinical labels are attached and joined by sample/patient ID."
+}

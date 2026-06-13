@@ -1,0 +1,10 @@
+{
+  "schema": "first_hypothesis_cross_validation_manifest_v30353",
+  "requiredToken": "V30353_FIRST_HYPOTHESIS_CROSS_VALIDATION_GATE",
+  "discoveryCohort": "GSE85047 selected-probe 283-sample lite matrix",
+  "topAxis": "hypoxia_stroma_proxy",
+  "replicationTargets": ["GSE49710/GSE49711", "TARGET-NBL"],
+  "state": "REPLICATION_MATRICES_REQUIRED_NOT_BUNDLED",
+  "githubPolicy": "Do not commit large raw matrices. Commit only small derived selected-axis/gene-level replication matrices with provenance.",
+  "promotionRule": "High-impact or discovery claims remain blocked until the same proxy repeats directionally in at least one independent human neuroblastoma cohort after probe/gene audit and MYCN/risk adjustment."
+}

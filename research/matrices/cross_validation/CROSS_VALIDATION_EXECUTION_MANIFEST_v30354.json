@@ -1,0 +1,20 @@
+{
+  "schema": "first_hypothesis_cross_validation_execution_v30354",
+  "requiredToken": "V30354_FIRST_HYPOTHESIS_CROSS_VALIDATION_EXECUTION",
+  "sourceDiscoveryMatrix": "GSE85047_SURVIVAL_AXIS_LITE_MATRIX_v30351.csv",
+  "internalValidation": "deterministic_5_fold_direction_check_on_GSE85047_selected_probe_283_sample_matrix",
+  "externalReplicationTargets": [
+    "GSE49710/GSE49711",
+    "TARGET-NBL"
+  ],
+  "externalLiteMatrixPolicy": "Inject only derived lightweight replication matrices: sample_id, PFS/OS labels, MYCN/risk labels, and the same hypoxia_stroma_proxy. Do not bundle raw large matrices and do not fabricate rows.",
+  "templates": [
+    "GSE49711_SURVIVAL_AXIS_LITE_MATRIX_TEMPLATE_v30354.csv",
+    "TARGET_NBL_SURVIVAL_AXIS_LITE_MATRIX_TEMPLATE_v30354.csv"
+  ],
+  "highImpactClaimAllowedByDefault": false,
+  "gse49711MetadataRoute": "GSE49711_METADATA_ONLY_REPLICATION_MANIFEST_v30355.json",
+  "gse49711MetadataState": "GSE49711_METADATA_ATTACHED_EXPRESSION_PROXY_REQUIRED",
+  "gse49711MetadataSampleCount": 498,
+  "externalReplicationStatusAfterMetadataAttachment": "EXTERNAL_REPLICATION_METADATA_ATTACHED_EXPRESSION_PROXY_REQUIRED"
+}

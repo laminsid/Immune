@@ -1,0 +1,23 @@
+{
+  "schema": "gse49711_metadata_only_replication_route_v30355",
+  "requiredToken": "V30355_GSE49711_METADATA_ONLY_REPLICATION_ROUTE",
+  "sourceFile": "GSE49711_series_matrix.txt.gz",
+  "sourceSha256": "a916f4353b14951eb62a6cc3b01f9fa248798bf7911b076f8965302c94f8819b",
+  "sampleCount": 498,
+  "platform": "GPL17553",
+  "organism": "Homo sapiens",
+  "expressionRowsInUploadedSeriesMatrix": 0,
+  "metadataCsv": "GSE49711_METADATA_ONLY_REPLICATION_ROUTE_v30355.csv",
+  "crossValidationState": "GSE49711_METADATA_ATTACHED_EXPRESSION_PROXY_REQUIRED",
+  "reason": "Uploaded GSE49711 series matrix contains clinical metadata and sample labels, but no gene expression table; hypoxia/stroma proxy cannot be computed from this file alone.",
+  "requiredForExternalReplication": "derived lightweight expression/proxy matrix with sample_id, mycn_or_risk_label, pfs_event/progression, pfs_time_days if available, and hypoxia_stroma_proxy",
+  "counts": {
+    "mycn_1": 92,
+    "mycn_0": 401,
+    "mycn_na": 5,
+    "progression_1": 183,
+    "progression_0": 315,
+    "death_1": 105,
+    "death_0": 393
+  }
+}

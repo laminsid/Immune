@@ -1,0 +1,50 @@
+{
+  "schema": "gse85047_survival_axis_lite_matrix_v30351",
+  "accession": "GSE85047",
+  "samples": 283,
+  "selectedProbeCount": 20,
+  "selectedProbes": [
+    "PROBE_2318743",
+    "PROBE_2318744",
+    "PROBE_2318746",
+    "PROBE_2318747",
+    "PROBE_2318751",
+    "PROBE_2318754",
+    "PROBE_2318755",
+    "PROBE_2318759",
+    "PROBE_2318761",
+    "PROBE_2318763",
+    "PROBE_2318765",
+    "PROBE_2318767",
+    "PROBE_2318769",
+    "PROBE_2318771",
+    "PROBE_2318773",
+    "PROBE_2318775",
+    "PROBE_2318777",
+    "PROBE_2318779",
+    "PROBE_2318781",
+    "PROBE_2318783"
+  ],
+  "mycn": {
+    "no": 222,
+    "yes": 55,
+    "na": 6
+  },
+  "osEvent": {
+    "no": 201,
+    "yes": 75,
+    "na": 7
+  },
+  "pfsEvent": {
+    "no": 178,
+    "yes": 97,
+    "na": 8
+  },
+  "sourceFullMatrixSha256": "cc92ba6c78dc7d3251dd71bb8639a99dd43acd6c374ffc855612cc05118fdffc",
+  "liteMatrixSha256": "a4eb885ad501cd39bf61967e89e39a4bb85061156847f4ebf5288bcfd4c92688",
+  "liteMatrixBytes": 82934,
+  "metadataBytes": 15983,
+  "state": "FULL_COHORT_LITE_MATRIX_READY_FOR_MODULE_AND_SURVIVAL_AXIS_REVIEW_ONLY",
+  "claimBoundary": "Selected-probe full-cohort lite matrix is suitable for hypothesis ranking and survival-axis proof-of-concept only. It is not a full transcriptome, not gene-symbol-mapped, and not sufficient for partner-gene discovery or global discovery labels.",
+  "requiredToken": "V30351_GSE85047_GITHUB_SAFE_LITE_SURVIVAL_AXIS_MATRIX"
+}

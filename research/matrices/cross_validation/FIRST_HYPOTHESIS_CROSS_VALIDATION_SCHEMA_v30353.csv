@@ -1,0 +1,2 @@
+sample_id,cohort,source_accession,mycn_status,risk_group,os_event,os_time_days,pfs_event,pfs_time_days,hypoxia_stroma_proxy,macrophage_tigit_spatial_proxy,cd8_nk_effector_proxy,target_visibility_proxy,target_effector_decoupling
+# Fill this template for TARGET-NBL or GSE49710/GSE49711 derived matrices. Do not commit large raw matrices. Values should be gene-level or validated selected-probe scores with documented mapping.

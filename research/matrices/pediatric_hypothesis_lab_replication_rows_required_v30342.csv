@@ -1,0 +1,2 @@
+# v3.0.3.42 replication-row template. Do not treat as numeric expression until rows below are filled from real GSE49710/TARGET-NBL/EGAD ETL or user-attested source.
+sample_id,group,CD8A,NKG7,GNLY,PRF1,GZMB,CXCL9,CXCL10,CCL5,B2M,CD276,B4GALNT1,ST8SIA1,TIGIT,NECTIN2,HIF1A,VEGFA,CD68,MRC1

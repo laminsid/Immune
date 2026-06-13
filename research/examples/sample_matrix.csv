@@ -1,0 +1,5 @@
+case_id,condition,type2_axis,tnf_il6_axis,hyperinflammatory_axis,regulatory_brake_weakness,psychoneuroimmune_axis,psychomusculoskeletal_axis
+case_a,allergy,88,12,4,20,72,8
+case_b,ra,18,84,35,70,58,10
+case_c,hyperinflammation,10,95,98,82,40,5
+case_d,back_stress,8,20,8,30,90,86
